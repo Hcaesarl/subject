@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.activiti.mapper.BizSubjectMapper">
+    
+    <resultMap type="BizSubject" id="BizSubjectResult">
+        <result property="id"    column="id"    />
+        <result property="firstsubject"    column="firstSubject"    />
+        <result property="firstteacher"    column="firstTeacher"    />
+        <result property="firstteacherusername"    column="firstTeacherUserName"    />
+        <result property="secondsubject"    column="secondSubject"    />
+        <result property="secondteacher"    column="secondTeacher"    />
+        <result property="secondteacherusername"    column="secondTeacherUserName"    />
+        <result property="thirdsubject"    column="thirdSubject"    />
+        <result property="thirdteacher"    column="thirdTeacher"    />
+        <result property="thirdteacherusername"    column="thirdTeacherUserName"    />
+        <result property="instanceId"    column="instance_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="applyUser"    column="apply_user"    />
+        <result property="applyTime"    column="apply_time"    />
+        <result property="realityStartTime"    column="reality_start_time"    />
+        <result property="realityEndTime"    column="reality_end_time"    />
+    </resultMap>
+
+    <sql id="selectBizSubjectVo">
+        select id, firstSubject, firstTeacher, firstTeacherUserName, secondSubject, secondTeacher, secondTeacherUserName, thirdSubject, thirdTeacher, thirdTeacherUserName, instance_id, create_by, create_time, update_by, update_time, apply_user, apply_time, reality_start_time, reality_end_time from biz_subject
+    </sql>
+
+    <select id="selectBizSubjectList" parameterType="BizSubject" resultMap="BizSubjectResult">
+        <include refid="selectBizSubjectVo"/>
+        <where>  
+            <if test="firstsubject != null  and firstsubject != ''"> and firstSubject = #{firstsubject}</if>
+            <if test="firstteacher != null  and firstteacher != ''"> and firstTeacher = #{firstteacher}</if>
+            <if test="firstteacherusername != null  and firstteacherusername != ''"> and firstTeacherUserName like concat('%', #{firstteacherusername}, '%')</if>
+            <if test="secondsubject != null  and secondsubject != ''"> and secondSubject = #{secondsubject}</if>
+            <if test="secondteacher != null  and secondteacher != ''"> and secondTeacher = #{secondteacher}</if>
+            <if test="secondteacherusername != null  and secondteacherusername != ''"> and secondTeacherUserName like concat('%', #{secondteacherusername}, '%')</if>
+            <if test="thirdsubject != null  and thirdsubject != ''"> and thirdSubject = #{thirdsubject}</if>
+            <if test="thirdteacher != null  and thirdteacher != ''"> and thirdTeacher = #{thirdteacher}</if>
+            <if test="thirdteacherusername != null  and thirdteacherusername != ''"> and thirdTeacherUserName like concat('%', #{thirdteacherusername}, '%')</if>
+            <if test="instanceId != null  and instanceId != ''"> and instance_id = #{instanceId}</if>
+            <if test="applyUser != null  and applyUser != ''"> and apply_user = #{applyUser}</if>
+            <if test="applyTime != null "> and apply_time = #{applyTime}</if>
+            <if test="realityStartTime != null "> and reality_start_time = #{realityStartTime}</if>
+            <if test="realityEndTime != null "> and reality_end_time = #{realityEndTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizSubjectById" parameterType="Long" resultMap="BizSubjectResult">
+        <include refid="selectBizSubjectVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBizSubject" parameterType="BizSubject" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_subject
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="firstsubject != null  and firstsubject != ''">firstSubject,</if>
+            <if test="firstteacher != null  and firstteacher != ''">firstTeacher,</if>
+            <if test="firstteacherusername != null  and firstteacherusername != ''">firstTeacherUserName,</if>
+            <if test="secondsubject != null  and secondsubject != ''">secondSubject,</if>
+            <if test="secondteacher != null  and secondteacher != ''">secondTeacher,</if>
+            <if test="secondteacherusername != null  and secondteacherusername != ''">secondTeacherUserName,</if>
+            <if test="thirdsubject != null  and thirdsubject != ''">thirdSubject,</if>
+            <if test="thirdteacher != null  and thirdteacher != ''">thirdTeacher,</if>
+            <if test="thirdteacherusername != null  and thirdteacherusername != ''">thirdTeacherUserName,</if>
+            <if test="instanceId != null  and instanceId != ''">instance_id,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="applyUser != null  and applyUser != ''">apply_user,</if>
+            <if test="applyTime != null ">apply_time,</if>
+            <if test="realityStartTime != null ">reality_start_time,</if>
+            <if test="realityEndTime != null ">reality_end_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="firstsubject != null  and firstsubject != ''">#{firstsubject},</if>
+            <if test="firstteacher != null  and firstteacher != ''">#{firstteacher},</if>
+            <if test="firstteacherusername != null  and firstteacherusername != ''">#{firstteacherusername},</if>
+            <if test="secondsubject != null  and secondsubject != ''">#{secondsubject},</if>
+            <if test="secondteacher != null  and secondteacher != ''">#{secondteacher},</if>
+            <if test="secondteacherusername != null  and secondteacherusername != ''">#{secondteacherusername},</if>
+            <if test="thirdsubject != null  and thirdsubject != ''">#{thirdsubject},</if>
+            <if test="thirdteacher != null  and thirdteacher != ''">#{thirdteacher},</if>
+            <if test="thirdteacherusername != null  and thirdteacherusername != ''">#{thirdteacherusername},</if>
+            <if test="instanceId != null  and instanceId != ''">#{instanceId},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="applyUser != null  and applyUser != ''">#{applyUser},</if>
+            <if test="applyTime != null ">#{applyTime},</if>
+            <if test="realityStartTime != null ">#{realityStartTime},</if>
+            <if test="realityEndTime != null ">#{realityEndTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizSubject" parameterType="BizSubject">
+        update biz_subject
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="firstsubject != null  and firstsubject != ''">firstSubject = #{firstsubject},</if>
+            <if test="firstteacher != null  and firstteacher != ''">firstTeacher = #{firstteacher},</if>
+            <if test="firstteacherusername != null  and firstteacherusername != ''">firstTeacherUserName = #{firstteacherusername},</if>
+            <if test="secondsubject != null  and secondsubject != ''">secondSubject = #{secondsubject},</if>
+            <if test="secondteacher != null  and secondteacher != ''">secondTeacher = #{secondteacher},</if>
+            <if test="secondteacherusername != null  and secondteacherusername != ''">secondTeacherUserName = #{secondteacherusername},</if>
+            <if test="thirdsubject != null  and thirdsubject != ''">thirdSubject = #{thirdsubject},</if>
+            <if test="thirdteacher != null  and thirdteacher != ''">thirdTeacher = #{thirdteacher},</if>
+            <if test="thirdteacherusername != null  and thirdteacherusername != ''">thirdTeacherUserName = #{thirdteacherusername},</if>
+            <if test="instanceId != null  and instanceId != ''">instance_id = #{instanceId},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="applyUser != null  and applyUser != ''">apply_user = #{applyUser},</if>
+            <if test="applyTime != null ">apply_time = #{applyTime},</if>
+            <if test="realityStartTime != null ">reality_start_time = #{realityStartTime},</if>
+            <if test="realityEndTime != null ">reality_end_time = #{realityEndTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizSubjectById" parameterType="Long">
+        delete from biz_subject where id = #{id}
+    </delete>
+
+    <delete id="deleteBizSubjectByIds" parameterType="String">
+        delete from biz_subject where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
