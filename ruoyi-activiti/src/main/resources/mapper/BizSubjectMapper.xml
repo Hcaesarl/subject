@@ -22,12 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="applyUser"    column="apply_user"    />
         <result property="applyTime"    column="apply_time"    />
-        <result property="realityStartTime"    column="reality_start_time"    />
-        <result property="realityEndTime"    column="reality_end_time"    />
     </resultMap>
 
     <sql id="selectBizSubjectVo">
-        select id, firstSubject, firstTeacher, firstTeacherUserName, secondSubject, secondTeacher, secondTeacherUserName, thirdSubject, thirdTeacher, thirdTeacherUserName, instance_id, create_by, create_time, update_by, update_time, apply_user, apply_time, reality_start_time, reality_end_time from biz_subject
+        select id, firstSubject, firstTeacher, firstTeacherUserName, secondSubject, secondTeacher, secondTeacherUserName, thirdSubject, thirdTeacher, thirdTeacherUserName, instance_id, create_by, create_time, update_by, update_time, apply_user, apply_time from biz_subject
     </sql>
 
     <select id="selectBizSubjectList" parameterType="BizSubject" resultMap="BizSubjectResult">
@@ -45,8 +43,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="instanceId != null  and instanceId != ''"> and instance_id = #{instanceId}</if>
             <if test="applyUser != null  and applyUser != ''"> and apply_user = #{applyUser}</if>
             <if test="applyTime != null "> and apply_time = #{applyTime}</if>
-            <if test="realityStartTime != null "> and reality_start_time = #{realityStartTime}</if>
-            <if test="realityEndTime != null "> and reality_end_time = #{realityEndTime}</if>
         </where>
     </select>
     
@@ -74,8 +70,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null ">update_time,</if>
             <if test="applyUser != null  and applyUser != ''">apply_user,</if>
             <if test="applyTime != null ">apply_time,</if>
-            <if test="realityStartTime != null ">reality_start_time,</if>
-            <if test="realityEndTime != null ">reality_end_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="firstsubject != null  and firstsubject != ''">#{firstsubject},</if>
@@ -94,8 +88,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null ">#{updateTime},</if>
             <if test="applyUser != null  and applyUser != ''">#{applyUser},</if>
             <if test="applyTime != null ">#{applyTime},</if>
-            <if test="realityStartTime != null ">#{realityStartTime},</if>
-            <if test="realityEndTime != null ">#{realityEndTime},</if>
          </trim>
     </insert>
 
@@ -118,8 +110,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null ">update_time = #{updateTime},</if>
             <if test="applyUser != null  and applyUser != ''">apply_user = #{applyUser},</if>
             <if test="applyTime != null ">apply_time = #{applyTime},</if>
-            <if test="realityStartTime != null ">reality_start_time = #{realityStartTime},</if>
-            <if test="realityEndTime != null ">reality_end_time = #{realityEndTime},</if>
         </trim>
         where id = #{id}
     </update>

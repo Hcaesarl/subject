@@ -67,13 +67,6 @@ public class BizSubject extends BaseEntity
     @Excel(name = "申请时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date applyTime;
 
-    /** 实际开始时间 */
-    @Excel(name = "实际开始时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date realityStartTime;
-
-    /** 实际结束时间 */
-    @Excel(name = "实际结束时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date realityEndTime;
 
     public void setId(Long id) 
     {
@@ -188,29 +181,10 @@ public class BizSubject extends BaseEntity
         this.applyTime = applyTime;
     }
 
-    public Date getApplyTime() 
+    public Date getApplyTime()
     {
         return applyTime;
     }
-    public void setRealityStartTime(Date realityStartTime) 
-    {
-        this.realityStartTime = realityStartTime;
-    }
-
-    public Date getRealityStartTime() 
-    {
-        return realityStartTime;
-    }
-    public void setRealityEndTime(Date realityEndTime) 
-    {
-        this.realityEndTime = realityEndTime;
-    }
-
-    public Date getRealityEndTime() 
-    {
-        return realityEndTime;
-    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -231,8 +205,6 @@ public class BizSubject extends BaseEntity
             .append("updateTime", getUpdateTime())
             .append("applyUser", getApplyUser())
             .append("applyTime", getApplyTime())
-            .append("realityStartTime", getRealityStartTime())
-            .append("realityEndTime", getRealityEndTime())
             .toString();
     }
 }
