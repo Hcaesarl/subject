@@ -1,7 +1,12 @@
 package com.ruoyi.activiti.service;
 
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.activiti.domain.BizLeaveVo;
 import com.ruoyi.activiti.domain.BizSubject;
+import com.ruoyi.activiti.domain.BizSubjectVo;
+import org.activiti.engine.runtime.ProcessInstance;
 
 /**
  * 课题申请Service接口
@@ -17,7 +22,7 @@ public interface IBizSubjectService
      * @param id 课题申请ID
      * @return 课题申请
      */
-    public BizSubject selectBizSubjectById(Long id);
+    public BizSubjectVo selectBizSubjectById(Long id);
 
     /**
      * 查询课题申请列表
@@ -25,7 +30,7 @@ public interface IBizSubjectService
      * @param bizSubject 课题申请
      * @return 课题申请集合
      */
-    public List<BizSubject> selectBizSubjectList(BizSubject bizSubject);
+    public List<BizSubjectVo> selectBizSubjectList(BizSubject bizSubject);
 
     /**
      * 新增课题申请
@@ -58,4 +63,20 @@ public interface IBizSubjectService
      * @return 结果
      */
     public int deleteBizSubjectById(Long id);
+
+    /**
+     * 启动流程
+     *
+     * @param entity
+     * @param applyUserId
+     * @return
+     */
+    public ProcessInstance submitApply(BizSubjectVo entity, String applyUserId, String key, Map<String, Object> variables);
+
+    /**
+     * 查询我的待办列表
+     * @param userId
+     * @return
+     */
+    List<BizSubjectVo> findTodoTasks(BizSubjectVo subject, String userId);
 }

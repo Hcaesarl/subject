@@ -1,87 +1,122 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <th:block th:include="include :: header('修改课题申请')" />
+    <th:block th:include="include :: header('第一意向教师审批')" />
     <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: select2-css" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-subject-edit" th:object="${bizSubject}">
-            <input name="id" th:field="*{id}" type="hidden">
-            <div class="form-group">    
+            <input name="id" th:field="*{id}" hidden>
+            <input name="taskId" th:field="${taskId}" hidden>
+            <input name="taskId" th:field="*{instanceId}" hidden>
+            <input name="taskId" th:field="*{applyUser}" hidden>
+            <input type="hidden" name="p_COM_comment" hidden>
+            <div class="form-group">
                 <label class="col-sm-3 control-label">第一课题：</label>
                 <div class="col-sm-8">
                     <input name="firstsubject" th:field="*{firstsubject}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">第一课题老师：</label>
                 <div class="col-sm-8">
                     <input name="firstteacher" th:field="*{firstteacher}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">第一意向老师用户名：</label>
                 <div class="col-sm-8">
                     <input name="firstteacherusername" th:field="*{firstteacherusername}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">第二课题：</label>
                 <div class="col-sm-8">
                     <input name="secondsubject" th:field="*{secondsubject}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">第二课题老师：</label>
                 <div class="col-sm-8">
                     <input name="secondteacher" th:field="*{secondteacher}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">第二课题老师用户名：</label>
                 <div class="col-sm-8">
                     <input name="secondteacherusername" th:field="*{secondteacherusername}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">自主提交课题：</label>
                 <div class="col-sm-8">
                     <input name="thirdsubject" th:field="*{thirdsubject}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">自主课题教师：</label>
                 <div class="col-sm-8">
                     <input name="thirdteacher" th:field="*{thirdteacher}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">自主课题教师用户名：</label>
                 <div class="col-sm-8">
                     <input name="thirdteacherusername" th:field="*{thirdteacherusername}" class="form-control" type="text">
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="teacher1Approved">审批意见：</label>
+                <div class="col-sm-8">
+                    <select name="p_B_teacher1Approved" id="teacher1Approved" class="form-control m-b">
+                        <option value="true">同意</option>
+                        <option value="false">拒绝</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">批注：</label>
+                <div class="col-sm-8">
+                    <textarea name="comment" class="form-control"></textarea>
                 </div>
             </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
-    <script type="text/javascript">
+    <th:block th:include="include :: select2-js" />
+    <script th:src="@{/js/activiti.js}"></script>
+    <script th:inline="javascript">
         var prefix = ctx + "subject";
-        $("#form-subject-edit").validate({
+        $("#form-leave-edit").validate({
             focusCleanup: true
         });
 
         function submitHandler() {
             if ($.validate.form()) {
-                $.operate.save(prefix + "/edit", $('#form-subject-edit').serialize());
+                if ($('textarea[name="comment"]').val()) {
+                    $('input[name="p_COM_comment"]').val($('textarea[name="comment"]').val());
+                }
+                var taskId = [[${taskId}]];
+                let query = $('#form-leave-edit').serialize();
+                debugger;
+                $.operate.save(prefix + "/complete/" + taskId, $('#form-subject-edit').serialize());
             }
         }
 
-        $("input[name='applyTime']").datetimepicker({
-            format: "yyyy-mm-dd",
-            minView: "month",
+        $("input[name='startTime']").datetimepicker({
             autoclose: true
+        });
+
+        $("input[name='endTime']").datetimepicker({
+            autoclose: true
+        });
+
+        $(function () {
+            var leave = [[${bizSubject}]];
         });
     </script>
 </body>

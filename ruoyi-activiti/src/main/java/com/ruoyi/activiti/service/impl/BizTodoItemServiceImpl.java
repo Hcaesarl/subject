@@ -10,6 +10,7 @@ import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.mapper.SysUserMapper;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,7 +110,11 @@ public class BizTodoItemServiceImpl implements IBizTodoItemService {
         todoItem.setIsHandle("0");
         todoItem.setModule(module);
         todoItem.setTodoTime(DateUtils.getNowDate());
-        List<Task> taskList = taskService.createTaskQuery().processInstanceId(instanceId).active().list();
+//        List<Task> taskList = taskService.createTaskQuery().processInstanceId(instanceId).active().list();
+        TaskQuery taskQuery = taskService.createTaskQuery();
+        TaskQuery taskQuery1 = taskQuery.processInstanceId(instanceId);
+        TaskQuery active = taskQuery1.active();
+        List<Task> taskList = active.list();
         int counter = 0;
         for (Task task: taskList) {
 

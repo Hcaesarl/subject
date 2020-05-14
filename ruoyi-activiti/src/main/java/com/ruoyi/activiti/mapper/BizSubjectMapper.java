@@ -2,6 +2,7 @@ package com.ruoyi.activiti.mapper;
 
 import java.util.List;
 import com.ruoyi.activiti.domain.BizSubject;
+import com.ruoyi.activiti.domain.BizSubjectVo;
 
 /**
  * 课题申请Mapper接口
@@ -17,7 +18,7 @@ public interface BizSubjectMapper
      * @param id 课题申请ID
      * @return 课题申请
      */
-    public BizSubject selectBizSubjectById(Long id);
+    public BizSubjectVo selectBizSubjectById(Long id);
 
     /**
      * 查询课题申请列表
@@ -25,7 +26,7 @@ public interface BizSubjectMapper
      * @param bizSubject 课题申请
      * @return 课题申请集合
      */
-    public List<BizSubject> selectBizSubjectList(BizSubject bizSubject);
+    public List<BizSubjectVo> selectBizSubjectList(BizSubject bizSubject);
 
     /**
      * 新增课题申请
