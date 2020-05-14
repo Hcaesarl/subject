@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.Page;
+import com.ruoyi.activiti.domain.BizLeaveVo;
 import com.ruoyi.activiti.domain.BizSubjectVo;
 import com.ruoyi.activiti.service.IProcessService;
 import com.ruoyi.common.core.page.PageDomain;
@@ -17,9 +18,12 @@ import com.ruoyi.system.mapper.SysUserMapper;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.persistence.entity.TaskEntityImpl;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.activiti.mapper.BizSubjectMapper;
@@ -241,6 +245,52 @@ public class BizSubjectServiceImpl implements IBizSubjectService
         list.addAll(tempList);
         return list;
 
+    }
+
+    @Override
+    public List<BizSubjectVo> findDoneTasks(BizSubjectVo bizSubject, String userId) {
+        // 手动分页
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        Integer pageNum = pageDomain.getPageNum();
+        Integer pageSize = pageDomain.getPageSize();
+        Page<BizSubjectVo> list = new Page<>();
+
+        List<BizSubjectVo> results = new ArrayList<>();
+        List<HistoricTaskInstance> hisList = processService.findDoneTasks(userId, "subject");
+        // 根据流程的业务ID查询实体并关联
+        for (HistoricTaskInstance instance : hisList) {
+            String processInstanceId = instance.getProcessInstanceId();
+            // 条件过滤 1
+            if (StringUtils.isNotBlank(bizSubject.getInstanceId()) && !bizSubject.getInstanceId().equals(processInstanceId)) {
+                continue;
+            }
+            HistoricProcessInstance processInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+            String businessKey = processInstance.getBusinessKey();
+            BizSubjectVo subject2 = bizSubjectMapper.selectBizSubjectById(new Long(businessKey));
+            BizSubjectVo newSubject = new BizSubjectVo();
+            BeanUtils.copyProperties(subject2, newSubject);
+            newSubject.setTaskId(instance.getId());
+            newSubject.setTaskName(instance.getName());
+            newSubject.setDoneTime(instance.getEndTime());
+            SysUser sysUser = userMapper.selectUserByLoginName(subject2.getApplyUser());
+            newSubject.setApplyUserName(sysUser.getUserName());
+            results.add(newSubject);
+        }
+
+        List<BizSubjectVo> tempList;
+        if (pageNum != null && pageSize != null) {
+            int maxRow = (pageNum - 1) * pageSize + pageSize > results.size() ? results.size() : (pageNum - 1) * pageSize + pageSize;
+            tempList = results.subList((pageNum - 1) * pageSize, maxRow);
+            list.setTotal(results.size());
+            list.setPageNum(pageNum);
+            list.setPageSize(pageSize);
+        } else {
+            tempList = results;
+        }
+
+        list.addAll(tempList);
+
+        return list;
     }
 
 

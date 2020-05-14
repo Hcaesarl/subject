@@ -79,4 +79,7 @@ public interface IBizSubjectService
      * @return
      */
     List<BizSubjectVo> findTodoTasks(BizSubjectVo subject, String userId);
+
+    List<BizSubjectVo> findDoneTasks(BizSubjectVo bizSubjectVo, String userId);
+
 }

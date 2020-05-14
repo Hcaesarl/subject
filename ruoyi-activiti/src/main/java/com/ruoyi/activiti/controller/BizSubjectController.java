@@ -27,6 +27,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * 课题申请Controller
@@ -211,5 +212,34 @@ public class BizSubjectController extends BaseController
         }
         return success("任务已完成");
     }
+
+    /**
+     * 自动绑定页面字段
+     */
+    @ModelAttribute("preloadLeave")
+    public BizSubjectVo getLeave(@RequestParam(value = "id", required = false) Long id, HttpSession session) {
+        if (id != null) {
+            return bizSubjectService.selectBizSubjectById(id);
+        }
+        return new BizSubjectVo();
+    }
+
+    @GetMapping("/subjectDone")
+    public String doneView() {
+        return prefix + "/subjectDone";
+    }
+
+    /**
+     * 我的已办列表
+     * @param bizSubject
+     * @return
+     */
+    @PostMapping("/taskDoneList")
+    @ResponseBody
+    public TableDataInfo taskDoneList(BizSubjectVo bizSubject) {
+        List<BizSubjectVo> list = bizSubjectService.findDoneTasks(bizSubject, ShiroUtils.getLoginName());
+        return getDataTable(list);
+    }
+
 }
 
