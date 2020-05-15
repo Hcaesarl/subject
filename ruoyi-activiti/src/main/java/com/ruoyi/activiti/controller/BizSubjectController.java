@@ -241,5 +241,25 @@ public class BizSubjectController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 表格回传父窗体
+     */
+    @GetMapping("/parent/{eleId}")
+    public String parent(@PathVariable String eleId,ModelMap mmap)
+    {
+        mmap.put("eleId", eleId);
+        return prefix + "/table/parent";
+    }
+
+    /**
+     * 表格回传父窗体
+     */
+    @GetMapping("/author/{roleId}")
+    public String author(@PathVariable String roleId,ModelMap mmap) {
+
+        mmap.put("roleId", roleId);
+        return prefix + "/table/author";
+    }
+
 }
 

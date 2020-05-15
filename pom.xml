@@ -213,7 +213,8 @@
 		<module>ruoyi-generator</module>
         <module>ruoyi-common</module>
 		<module>ruoyi-activiti</module>
-	</modules>
+        <module>subject</module>
+    </modules>
     <packaging>pom</packaging>
 
 

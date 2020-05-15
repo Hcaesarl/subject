@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('表格传值给父页面')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+		<div class="row">
+			<input type="hidden" id="roleId" name="roleId" th:value="${roleId}">
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "system/role/authUser";
+        var datas = [[${@dict.getType('sys_normal_disable')}]];
+
+        $(function() {
+            var options = {
+                url: prefix + "/allocatedList",
+		        showSearch: false,
+		        showRefresh: false,
+		        showToggle: false,
+		        showColumns: false,
+				queryParams: queryParams,
+				columns: [{
+					checkbox: true
+				},
+					{
+						field: 'userId',
+						title: '用户ID',
+						visible: false
+					},
+					{
+						field: 'loginName',
+						title: '登录名称',
+						sortable: true
+					},
+					{
+						field: 'userName',
+						title: '用户名称'
+					},
+					{
+						field: 'email',
+						title: '邮箱'
+					},
+					{
+						field: 'phonenumber',
+						title: '手机'
+					}]
+            };
+            $.table.init(options);
+        });
+        
+        /* 添加用户-选择用户-提交 */
+		function submitHandler(index, layero) {
+			let eleId = '#'+[[${eleId}]];
+			var thirdteacher = $.table.selectColumns("userName");
+			var thirdteacherusername = $.table.selectColumns("loginName");
+			if (thirdteacher.length == 0) {
+				$.modal.alertWarning("请至少选择一条记录");
+				return;
+			}
+			if (thirdteacher.length > 1) {
+				$.modal.alertWarning("最多只能选择一条记录");
+				return;
+			}
+			// 父页面的方法
+			// parent.selectUsers();
+			// 父页面的变量
+			parent.$('#thirdteacher').val(thirdteacher);
+			parent.$('#thirdteacherusername').val(thirdteacherusername);
+			$.modal.close();
+
+
+		}
+
+		function queryParams(params) {
+			var search = $.table.queryParams(params);
+			search.roleId = $("#roleId").val();
+			return search;
+		}
+    </script>
+</body>
+</html>
